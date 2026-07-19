@@ -1,6 +1,8 @@
+from pathlib import Path
 from typing import Annotated
+from uuid import uuid4
 
-from fastapi import APIRouter, Depends, HTTPException, Response, status
+from fastapi import APIRouter, Depends, File, HTTPException, Response, UploadFile, status
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
@@ -12,6 +14,22 @@ from app.schemas.product import ProductCreate, ProductRead, ProductUpdate
 router = APIRouter(prefix="/products", tags=["products"])
 
 DatabaseSession = Annotated[Session, Depends(get_db)]
+UPLOAD_DIRECTORY = Path(__file__).resolve().parent.parent.parent / "uploads"
+ALLOWED_IMAGE_TYPES = {"image/jpeg", "image/png", "image/webp", "image/gif"}
+
+
+@router.post("/upload", status_code=status.HTTP_201_CREATED)
+async def upload_product_image(file: UploadFile = File(...)) -> dict[str, str]:
+    if file.content_type not in ALLOWED_IMAGE_TYPES:
+        raise HTTPException(status_code=400, detail="Please upload a JPG, PNG, WebP, or GIF image.")
+    contents = await file.read()
+    if len(contents) > 5 * 1024 * 1024:
+        raise HTTPException(status_code=400, detail="Image must be smaller than 5 MB.")
+    suffix = Path(file.filename or "image").suffix.lower()
+    filename = f"{uuid4().hex}{suffix}"
+    UPLOAD_DIRECTORY.mkdir(parents=True, exist_ok=True)
+    (UPLOAD_DIRECTORY / filename).write_bytes(contents)
+    return {"path": f"/uploads/{filename}"}
 
 # Create a new product
 @router.post("", response_model=ProductRead, status_code=status.HTTP_201_CREATED)

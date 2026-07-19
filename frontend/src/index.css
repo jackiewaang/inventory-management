@@ -1,0 +1,14 @@
+@import "tailwindcss";
+@theme { --font-sans: "Inter", "Avenir Next", "Segoe UI", sans-serif; --breakpoint-xs: 26rem; }
+@layer base { * { box-sizing: border-box; } body { margin: 0; min-width: 320px; background: #f7f9f9; color: #0f172a; } button { cursor: pointer; } button:disabled { cursor: not-allowed; } }
+@layer components {
+  .page-shell { @apply min-h-screen bg-[#f7f9f9]; }
+  .page-width { @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8; }
+  .btn-primary { @apply inline-flex items-center justify-center gap-2 rounded-xl bg-slate-950 px-4 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-teal-700 disabled:opacity-50; }
+  .btn-secondary { @apply inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 transition hover:bg-slate-50 disabled:opacity-50; }
+  .field { @apply w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10; }
+  .label { @apply text-sm font-bold text-slate-700; }
+  .info-box { @apply flex flex-col rounded-2xl bg-slate-50 p-4; }
+  .info-box span { @apply text-xs font-semibold text-slate-400; }
+  .info-box strong { @apply mt-1 text-lg text-slate-950; }
+}
