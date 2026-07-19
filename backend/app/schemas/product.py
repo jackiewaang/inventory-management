@@ -33,4 +33,3 @@ class ProductRead(BaseModel):
     colli: int | None = None
     tags: str | None = None
     created_at: datetime
-    updated_at: datetime
