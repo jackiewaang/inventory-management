@@ -11,7 +11,6 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - uploads_data:/app/uploads
-      - ./backend:/app
     depends_on:
       postgres:
         condition: service_healthy
