@@ -1,8 +1,13 @@
 import os
+from pathlib import Path
+from dotenv import load_dotenv
 from collections.abc import Generator
 
 from sqlalchemy import URL, create_engine
 from sqlalchemy.orm import Session, sessionmaker
+
+root_env = Path(__file__).resolve().parents[3] / ".env"
+load_dotenv(root_env)
 
 DATABASE_URL = URL.create(
     drivername="postgresql+psycopg",
