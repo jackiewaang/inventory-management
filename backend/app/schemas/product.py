@@ -11,6 +11,7 @@ class ProductCreate(BaseModel):
     colors: str | None = None
     colli: int | None = None
     tags: str | None = None
+    notes: str | None = None
 
 class ProductUpdate(BaseModel):
     itemno: str | None = Field(default=None, min_length=1, max_length=50)
@@ -20,6 +21,7 @@ class ProductUpdate(BaseModel):
     colors: str | None = None
     colli: int | None = None
     tags: str | None = None
+    notes: str | None = None
 
 class ProductRead(BaseModel):
     model_config = ConfigDict(from_attributes=True)
@@ -32,4 +34,5 @@ class ProductRead(BaseModel):
     colors: str | None = None
     colli: int | None = None
     tags: str | None = None
+    notes: str | None = None
     created_at: datetime

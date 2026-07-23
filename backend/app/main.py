@@ -32,7 +32,7 @@ app.include_router(products_router)
 def health_check():
     return {"status": "healthy, thank you"}
 
-Base.metadata.create_all(bind=engine)
+# Base.metadata.create_all(bind=engine)
 
 static_dir = project_dir / "static"
 

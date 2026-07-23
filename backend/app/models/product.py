@@ -18,4 +18,5 @@ class Product(Base):
     colors: Mapped[str | None] = mapped_column(String(500), nullable=True)
     colli: Mapped[int | None] = mapped_column(nullable=True)
     tags: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    notes: Mapped[str | None] = mapped_column(String(500), nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
