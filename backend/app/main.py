@@ -19,6 +19,32 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.middleware("http")
+async def frontend_cache_headers(request: Request, call_next):
+    response = await call_next(request)
+
+    path = request.url.path
+
+    # These files must be checked for updates.
+    if (
+        path == "/"
+        or path.endswith(".html")
+        or path == "/manifest.json"
+    ):
+        response.headers["Cache-Control"] = (
+            "no-cache, no-store, must-revalidate"
+        )
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
+
+    # Vite gives built JS/CSS files content-hashed filenames.
+    elif path.startswith("/assets/"):
+        response.headers["Cache-Control"] = (
+            "public, max-age=31536000, immutable"
+        )
+
+    return response
+
 project_dir = Path(__file__).resolve().parent.parent
 
 uploads_directory = project_dir / "uploads"
